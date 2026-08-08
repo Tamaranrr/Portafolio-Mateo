@@ -1,0 +1,459 @@
+---
+import { projects, categories } from "../data/projects.js";
+---
+
+<section class="work section" id="trabajo">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <div>
+        <p class="eyebrow">Trabajo seleccionado</p>
+        <h2 class="section-title">Proyectos <em>recientes</em></h2>
+      </div>
+      <p class="lede">
+        Una selección de producciones audiovisuales, fotográficas y de marca
+        desarrolladas en los últimos años.
+      </p>
+    </div>
+
+    <div class="work-filters" data-reveal role="tablist" aria-label="Filtrar proyectos por categoría">
+      {categories.map((cat, i) => (
+        <button
+          class="filter-btn"
+          class:list={[{ "is-active": i === 0 }]}
+          data-filter={cat}
+          role="tab"
+          aria-selected={i === 0}
+          data-cursor-hover
+        >
+          {cat}
+        </button>
+      ))}
+    </div>
+
+    <div class="work-grid" id="work-grid" data-reveal-group>
+      {projects.map((p) => (
+        <button
+          class="work-card"
+          data-category={p.category}
+          data-id={p.id}
+          data-title={p.title}
+          data-category-label={p.category}
+          data-year={p.year}
+          data-client={p.client}
+          data-description={p.description}
+          data-image={p.image}
+          data-tags={p.tags.join(",")}
+          data-cursor-hover
+        >
+          <span class="work-card-media">
+            <img src={p.image} alt={p.title} loading="lazy" />
+          </span>
+          <span class="work-card-info">
+            <span class="work-card-title">{p.title}</span>
+            <span class="work-card-meta">{p.category} &middot; {p.year}</span>
+          </span>
+          <span class="work-card-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+              <path d="M7 17 17 7M7 7h10v10" />
+            </svg>
+          </span>
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <div class="work-modal" id="work-modal" aria-hidden="true">
+    <div class="work-modal-backdrop" data-modal-close></div>
+    <div class="work-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="work-modal-close" data-modal-close aria-label="Cerrar" data-cursor-hover>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M6 6l12 12M18 6 6 18" />
+        </svg>
+      </button>
+      <div class="work-modal-media">
+        <img id="modal-image" src="" alt="" />
+      </div>
+      <div class="work-modal-body">
+        <span class="work-modal-meta" id="modal-meta"></span>
+        <h3 class="work-modal-title" id="modal-title"></h3>
+        <p class="work-modal-desc" id="modal-desc"></p>
+        <div class="work-modal-tags" id="modal-tags"></div>
+        <dl class="work-modal-facts">
+          <div>
+            <dt>Cliente</dt>
+            <dd id="modal-client"></dd>
+          </div>
+          <div>
+            <dt>Año</dt>
+            <dd id="modal-year"></dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const filterBtns = document.querySelectorAll<HTMLButtonElement>(".filter-btn");
+  const cards = document.querySelectorAll<HTMLButtonElement>(".work-card");
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      filterBtns.forEach((b) => {
+        b.classList.remove("is-active");
+        b.setAttribute("aria-selected", "false");
+      });
+      btn.classList.add("is-active");
+      btn.setAttribute("aria-selected", "true");
+
+      const filter = btn.dataset.filter;
+      cards.forEach((card) => {
+        const match = filter === "Todos" || card.dataset.category === filter;
+        card.style.display = match ? "" : "none";
+      });
+    });
+  });
+
+  const modal = document.getElementById("work-modal");
+  const modalImage = document.getElementById("modal-image") as HTMLImageElement | null;
+  const modalMeta = document.getElementById("modal-meta");
+  const modalTitle = document.getElementById("modal-title");
+  const modalDesc = document.getElementById("modal-desc");
+  const modalTags = document.getElementById("modal-tags");
+  const modalClient = document.getElementById("modal-client");
+  const modalYear = document.getElementById("modal-year");
+
+  const openModal = (card: HTMLElement) => {
+    if (!modal) return;
+    const { title, categoryLabel, year, client, description, image, tags } = card.dataset;
+
+    if (modalImage) {
+      modalImage.src = image ?? "";
+      modalImage.alt = title ?? "";
+    }
+    if (modalMeta) modalMeta.textContent = `${categoryLabel ?? ""} · ${year ?? ""}`;
+    if (modalTitle) modalTitle.textContent = title ?? "";
+    if (modalDesc) modalDesc.textContent = description ?? "";
+    if (modalClient) modalClient.textContent = client ?? "";
+    if (modalYear) modalYear.textContent = year ?? "";
+    if (modalTags) {
+      modalTags.innerHTML = "";
+      (tags ?? "").split(",").filter(Boolean).forEach((tag) => {
+        const span = document.createElement("span");
+        span.textContent = tag;
+        modalTags.appendChild(span);
+      });
+    }
+
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeModal = () => {
+    if (!modal) return;
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  };
+
+  cards.forEach((card) => card.addEventListener("click", () => openModal(card)));
+  modal?.querySelectorAll("[data-modal-close]").forEach((el) =>
+    el.addEventListener("click", closeModal)
+  );
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeModal();
+  });
+</script>
+
+<style>
+  .work-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: clamp(2rem, 5vw, 3rem);
+  }
+
+  .filter-btn {
+    padding: 0.55rem 1.2rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--text-dim);
+    transition: border-color 0.3s var(--ease-out), color 0.3s var(--ease-out),
+      background 0.3s var(--ease-out);
+  }
+
+  .filter-btn:hover {
+    color: var(--text);
+    border-color: var(--line-strong);
+  }
+
+  .filter-btn.is-active {
+    color: #0a0a0a;
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.4rem;
+  }
+
+  .work-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--surface);
+  }
+
+  .work-card:nth-child(3n+2) {
+    grid-row: span 1;
+  }
+
+  .work-card-media {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+  }
+
+  .work-card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.55) brightness(0.75);
+    transition: transform 0.7s var(--ease-out), filter 0.5s var(--ease-out);
+  }
+
+  .work-card-media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      transparent 40%,
+      rgba(10, 10, 10, 0.92) 100%
+    );
+  }
+
+  .work-card:hover .work-card-media img {
+    transform: scale(1.06);
+    filter: grayscale(0) brightness(0.95);
+  }
+
+  .work-card-info {
+    position: absolute;
+    left: 1.1rem;
+    right: 1.1rem;
+    bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    z-index: 1;
+  }
+
+  .work-card-title {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: 1.25rem;
+    line-height: 1.05;
+  }
+
+  .work-card-meta {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    letter-spacing: 0.03em;
+  }
+
+  .work-card-arrow {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(10, 10, 10, 0.55);
+    border: 1px solid var(--line-strong);
+    opacity: 0;
+    transform: translate(-6px, 6px);
+    transition: opacity 0.35s var(--ease-out), transform 0.35s var(--ease-out);
+    z-index: 1;
+  }
+
+  .work-card-arrow svg {
+    width: 14px;
+    height: 14px;
+    color: var(--text);
+  }
+
+  .work-card:hover .work-card-arrow {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+
+  @media (max-width: 980px) {
+    .work-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .work-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Modal */
+  .work-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(1rem, 4vw, 3rem);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s var(--ease-out), visibility 0.4s;
+  }
+
+  .work-modal.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .work-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(6, 6, 6, 0.86);
+    backdrop-filter: blur(4px);
+  }
+
+  .work-modal-panel {
+    position: relative;
+    width: min(920px, 100%);
+    max-height: 88vh;
+    overflow-y: auto;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    transform: translateY(18px);
+    transition: transform 0.4s var(--ease-out);
+  }
+
+  .work-modal.is-open .work-modal-panel {
+    transform: translateY(0);
+  }
+
+  .work-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 2;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(10, 10, 10, 0.6);
+    border: 1px solid var(--line-strong);
+  }
+
+  .work-modal-close svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .work-modal-media {
+    background: #000;
+    min-height: 260px;
+  }
+
+  .work-modal-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .work-modal-body {
+    padding: clamp(1.75rem, 3vw, 2.75rem);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .work-modal-meta {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .work-modal-title {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    line-height: 1.05;
+  }
+
+  .work-modal-desc {
+    color: var(--text-dim);
+  }
+
+  .work-modal-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .work-modal-tags span {
+    font-size: 0.72rem;
+    padding: 0.35rem 0.7rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--text-dim);
+  }
+
+  .work-modal-facts {
+    display: flex;
+    gap: 2.5rem;
+    margin-top: 0.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .work-modal-facts dt {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-faint);
+    margin-bottom: 0.25rem;
+  }
+
+  .work-modal-facts dd {
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 720px) {
+    .work-modal-panel {
+      grid-template-columns: 1fr;
+    }
+
+    .work-modal-media {
+      min-height: 200px;
+    }
+  }
+</style>

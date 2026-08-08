@@ -1,0 +1,28 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Hero from "../components/Hero.astro";
+import About from "../components/About.astro";
+import Work from "../components/Work.astro";
+import Services from "../components/Services.astro";
+import Testimonials from "../components/Testimonials.astro";
+import Clients from "../components/Clients.astro";
+import Contact from "../components/Contact.astro";
+import Footer from "../components/Footer.astro";
+import VersionSwitcher from "../components/shared/VersionSwitcher.astro";
+---
+
+<Layout>
+  <Nav />
+  <main>
+    <Hero />
+    <About />
+    <Work />
+    <Services />
+    <Testimonials />
+    <Clients />
+    <Contact />
+  </main>
+  <Footer />
+  <VersionSwitcher current="v1" theme="dark" />
+</Layout>

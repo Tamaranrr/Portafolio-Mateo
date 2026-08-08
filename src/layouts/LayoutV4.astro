@@ -1,0 +1,75 @@
+---
+import "../styles/v4.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Mateo — Productor Multimedia (Brutalista)",
+  description = "Portafolio crudo de Mateo, productor multimedia: video, fotografía, motion graphics e identidad de marca.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <slot />
+
+    <script>
+      const revealEls = document.querySelectorAll("[data-reveal]");
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("in-view");
+              io.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+      );
+
+      revealEls.forEach((el) => {
+        if (el.getBoundingClientRect().bottom < 0) {
+          el.classList.add("in-view");
+        } else {
+          io.observe(el);
+        }
+      });
+
+      let scrollSweepTimer: ReturnType<typeof setTimeout>;
+      window.addEventListener(
+        "scroll",
+        () => {
+          clearTimeout(scrollSweepTimer);
+          scrollSweepTimer = setTimeout(() => {
+            document.querySelectorAll("[data-reveal]:not(.in-view)").forEach((el) => {
+              if (el.getBoundingClientRect().bottom < 0) {
+                el.classList.add("in-view");
+                io.unobserve(el);
+              }
+            });
+          }, 200);
+        },
+        { passive: true }
+      );
+    </script>
+  </body>
+</html>

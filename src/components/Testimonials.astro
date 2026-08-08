@@ -1,0 +1,186 @@
+---
+import { testimonials } from "../data/content.js";
+---
+
+<section class="testimonials section" id="testimonios">
+  <div class="container">
+    <div class="section-head" data-reveal>
+      <div>
+        <p class="eyebrow">Clientes</p>
+        <h2 class="section-title">Lo que <em>dicen</em></h2>
+      </div>
+    </div>
+
+    <div class="testi-slider" data-reveal>
+      <div class="testi-track" id="testi-track">
+        {testimonials.map((t) => (
+          <figure class="testi-slide">
+            <svg class="testi-quote" viewBox="0 0 32 24" fill="none" aria-hidden="true">
+              <path
+                d="M0 24V14.4C0 6.4 5.2 1 13.2 0l1.4 4.2c-4.6 1.2-7 3.8-7.2 7.8H13V24H0Zm18 0V14.4C18 6.4 23.2 1 31.2 0l1.4 4.2c-4.6 1.2-7 3.8-7.2 7.8H31V24H18Z"
+                fill="currentColor"
+              />
+            </svg>
+            <blockquote>{t.quote}</blockquote>
+            <figcaption>
+              <span class="testi-name">{t.name}</span>
+              <span class="testi-role">{t.role}</span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+
+      <div class="testi-controls">
+        <button class="testi-btn" id="testi-prev" aria-label="Testimonio anterior" data-cursor-hover>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M15 6l-6 6 6 6" />
+          </svg>
+        </button>
+        <div class="testi-dots" id="testi-dots">
+          {testimonials.map((_, i) => (
+            <button class="testi-dot" class:list={[{ "is-active": i === 0 }]} data-index={i} aria-label={`Ir al testimonio ${i + 1}`}></button>
+          ))}
+        </div>
+        <button class="testi-btn" id="testi-next" aria-label="Siguiente testimonio" data-cursor-hover>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M9 6l6 6-6 6" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const track = document.getElementById("testi-track");
+  const dots = document.querySelectorAll<HTMLButtonElement>(".testi-dot");
+  const prevBtn = document.getElementById("testi-prev");
+  const nextBtn = document.getElementById("testi-next");
+  const slides = track?.querySelectorAll(".testi-slide");
+  let current = 0;
+  let timer: ReturnType<typeof setInterval>;
+
+  const goTo = (index: number) => {
+    if (!track || !slides) return;
+    current = (index + slides.length) % slides.length;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle("is-active", i === current));
+  };
+
+  const startAutoplay = () => {
+    clearInterval(timer);
+    timer = setInterval(() => goTo(current + 1), 6000);
+  };
+
+  prevBtn?.addEventListener("click", () => {
+    goTo(current - 1);
+    startAutoplay();
+  });
+  nextBtn?.addEventListener("click", () => {
+    goTo(current + 1);
+    startAutoplay();
+  });
+  dots.forEach((dot) => {
+    dot.addEventListener("click", () => {
+      goTo(Number(dot.dataset.index));
+      startAutoplay();
+    });
+  });
+
+  goTo(0);
+  startAutoplay();
+</script>
+
+<style>
+  .testi-slider {
+    max-width: 760px;
+  }
+
+  .testi-track {
+    display: flex;
+    transition: transform 0.6s var(--ease-in-out);
+  }
+
+  .testi-slide {
+    flex: 0 0 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .testi-quote {
+    width: 40px;
+    height: 30px;
+    color: var(--accent);
+  }
+
+  .testi-slide blockquote {
+    font-family: var(--font-display);
+    font-weight: 400;
+    text-transform: none;
+    font-size: clamp(1.3rem, 3vw, 2rem);
+    line-height: 1.3;
+    max-width: 26ch;
+  }
+
+  .testi-slide figcaption {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .testi-name {
+    font-weight: 600;
+  }
+
+  .testi-role {
+    font-size: 0.85rem;
+    color: var(--text-faint);
+  }
+
+  .testi-controls {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-top: 2.5rem;
+  }
+
+  .testi-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--line-strong);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.3s var(--ease-out), color 0.3s var(--ease-out);
+  }
+
+  .testi-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .testi-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .testi-dots {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .testi-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--line-strong);
+    transition: background 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+  }
+
+  .testi-dot.is-active {
+    background: var(--accent);
+    transform: scale(1.3);
+  }
+</style>

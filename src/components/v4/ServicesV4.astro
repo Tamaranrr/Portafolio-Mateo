@@ -1,0 +1,72 @@
+---
+import { services } from "../../data/content.js";
+---
+
+<section class="servicesv4 section" id="servicios">
+  <div class="container">
+    <p class="label" data-reveal>QUE HAGO</p>
+    <h2 class="slab" data-reveal>SERVICIOS <span class="hl">SIN FILTRO.</span></h2>
+
+    <div class="servicesv4-list" data-reveal>
+      {services.map((s) => (
+        <div class="servicesv4-row">
+          <span class="servicesv4-index">{s.index}</span>
+          <span class="servicesv4-title">{s.title}</span>
+          <span class="servicesv4-desc">{s.description}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .servicesv4-list {
+    margin-top: 2.5rem;
+    border-top: var(--bw) solid var(--line);
+  }
+
+  .servicesv4-row {
+    display: grid;
+    grid-template-columns: 4rem 14rem 1fr;
+    gap: 1.5rem;
+    align-items: center;
+    padding-block: 1.25rem;
+    border-bottom: var(--bw) solid var(--line);
+    transition: background 0.12s linear, color 0.12s linear;
+  }
+
+  .servicesv4-row:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .servicesv4-index {
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  .servicesv4-title {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 1.05rem;
+  }
+
+  .servicesv4-desc {
+    font-size: 0.9rem;
+    opacity: 0.85;
+  }
+
+  @media (max-width: 760px) {
+    .servicesv4-row {
+      grid-template-columns: 2.5rem 1fr;
+      grid-template-areas:
+        "index title"
+        "desc desc";
+      row-gap: 0.5rem;
+    }
+
+    .servicesv4-index { grid-area: index; }
+    .servicesv4-title { grid-area: title; }
+    .servicesv4-desc { grid-area: desc; }
+  }
+</style>

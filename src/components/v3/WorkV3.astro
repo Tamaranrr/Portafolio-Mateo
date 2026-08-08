@@ -1,0 +1,185 @@
+---
+import { projects } from "../../data/projects.js";
+const rotations = [-3, 2, -1.5, 3, -2, 1.5, -3, 2];
+---
+
+<section class="workv3 section" id="trabajo">
+  <div class="container workv3-head" data-reveal>
+    <div>
+      <span class="chip"><span class="chip-dot"></span> Portafolio</span>
+      <h2 class="big-title">ARRASTRA Y <span class="grad">EXPLORA.</span></h2>
+    </div>
+    <p class="lede">Una selección de proyectos recientes — desliza o arrastra para ver más.</p>
+  </div>
+
+  <div class="workv3-slider" id="workv3-slider" data-reveal>
+    <div class="workv3-track" id="workv3-track">
+      {projects.map((p, i) => (
+        <article class="workv3-card" style={`--rot:${rotations[i % rotations.length]}deg`}>
+          <div class="workv3-card-media">
+            <img src={p.image} alt={p.title} loading="lazy" draggable="false" />
+            <span class="workv3-card-cat">{p.category}</span>
+          </div>
+          <h3>{p.title}</h3>
+          <p>{p.client} · {p.year}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+
+  <div class="workv3-controls">
+    <button id="workv3-prev" class="btn3 btn3-outline">← Anterior</button>
+    <button id="workv3-next" class="btn3 btn3-outline">Siguiente →</button>
+  </div>
+</section>
+
+<script>
+  const slider = document.getElementById("workv3-slider") as HTMLElement | null;
+  const track = document.getElementById("workv3-track") as HTMLElement | null;
+  const prevBtn = document.getElementById("workv3-prev");
+  const nextBtn = document.getElementById("workv3-next");
+
+  if (slider && track) {
+    let isDown = false;
+    let startX = 0;
+    let scrollStart = 0;
+    let moved = false;
+
+    const cardWidth = () => track.querySelector<HTMLElement>(".workv3-card")?.offsetWidth ?? 320;
+
+    slider.addEventListener("pointerdown", (e) => {
+      isDown = true;
+      moved = false;
+      startX = e.clientX;
+      scrollStart = slider.scrollLeft;
+      slider.classList.add("is-dragging");
+      slider.setPointerCapture(e.pointerId);
+    });
+
+    slider.addEventListener("pointermove", (e) => {
+      if (!isDown) return;
+      const dx = e.clientX - startX;
+      if (Math.abs(dx) > 4) moved = true;
+      slider.scrollLeft = scrollStart - dx;
+    });
+
+    const endDrag = () => {
+      isDown = false;
+      slider.classList.remove("is-dragging");
+    };
+    slider.addEventListener("pointerup", endDrag);
+    slider.addEventListener("pointerleave", endDrag);
+
+    slider.addEventListener(
+      "click",
+      (e) => {
+        if (moved) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      },
+      true
+    );
+
+    prevBtn?.addEventListener("click", () => {
+      slider.scrollBy({ left: -(cardWidth() + 24), behavior: "smooth" });
+    });
+    nextBtn?.addEventListener("click", () => {
+      slider.scrollBy({ left: cardWidth() + 24, behavior: "smooth" });
+    });
+  }
+</script>
+
+<style>
+  .workv3-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: clamp(2rem, 5vw, 3rem);
+  }
+
+  .workv3-slider {
+    overflow-x: auto;
+    cursor: grab;
+    scrollbar-width: none;
+    padding-block: 1.5rem;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent);
+  }
+
+  .workv3-slider::-webkit-scrollbar {
+    display: none;
+  }
+
+  .workv3-slider.is-dragging {
+    cursor: grabbing;
+  }
+
+  .workv3-track {
+    display: flex;
+    gap: 1.5rem;
+    width: max-content;
+    padding-inline: var(--gutter);
+  }
+
+  .workv3-card {
+    flex: 0 0 280px;
+    transform: rotate(var(--rot));
+    transition: transform 0.35s var(--ease-bounce);
+  }
+
+  .workv3-card:hover {
+    transform: rotate(0deg) translateY(-6px);
+  }
+
+  .workv3-card-media {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 2px solid var(--line-strong);
+  }
+
+  .workv3-card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .workv3-card-cat {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    background: var(--gradient-1);
+    color: #130f22;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .workv3-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    text-transform: uppercase;
+    margin-top: 0.9rem;
+  }
+
+  .workv3-card p {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-top: 0.2rem;
+  }
+
+  .workv3-controls {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+</style>

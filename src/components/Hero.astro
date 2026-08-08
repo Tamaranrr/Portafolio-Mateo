@@ -1,0 +1,222 @@
+---
+const skills = ["Video", "Fotografía", "Motion", "Dirección de arte", "Color grading", "Branding"];
+---
+
+<section class="hero" id="inicio">
+  <div class="hero-bg" aria-hidden="true">
+    <div class="hero-glow"></div>
+    <div class="vignette"></div>
+  </div>
+
+  <div class="container hero-inner">
+    <p class="hero-kicker" data-reveal>Productor multimedia &mdash; Video &amp; Fotografía</p>
+
+    <h1 class="hero-title">
+      <span class="line" data-reveal>Historias que</span>
+      <span class="line" data-reveal>se <em>ven</em> y</span>
+      <span class="line" data-reveal>se <em>sienten</em>.</span>
+    </h1>
+
+    <div class="hero-foot" data-reveal>
+      <p class="hero-desc">
+        Soy Mateo, productor multimedia. Convierto ideas en piezas audiovisuales
+        con dirección propia: video, fotografía, motion graphics e identidad de marca.
+      </p>
+      <div class="hero-actions">
+        <a href="#trabajo" class="btn btn-solid" data-cursor-hover>
+          Ver trabajo
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M7 17 17 7M7 7h10v10" />
+          </svg>
+        </a>
+        <a href="#contacto" class="btn" data-cursor-hover>Contactar</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-marquee" aria-hidden="true">
+    <div class="marquee-track">
+      {[...skills, ...skills].map((s) => (
+        <span>{s}</span>
+      ))}
+    </div>
+  </div>
+
+  <a href="#sobre-mi" class="hero-scroll" data-cursor-hover aria-label="Ir a la siguiente sección">
+    <span></span>
+  </a>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    padding-top: 6rem;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(120% 100% at 15% 0%, #1a1408 0%, #0a0a0a 55%),
+      var(--bg);
+  }
+
+  .hero-glow {
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 60vw;
+    height: 60vw;
+    max-width: 700px;
+    max-height: 700px;
+    background: radial-gradient(circle, rgba(211, 163, 73, 0.14) 0%, transparent 70%);
+    filter: blur(10px);
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-kicker {
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: clamp(3rem, 10vw, 7.5rem);
+    line-height: 0.94;
+    letter-spacing: 0.005em;
+  }
+
+  .hero-title .line {
+    display: block;
+    overflow: hidden;
+  }
+
+  .hero-title em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .hero-foot {
+    margin-top: clamp(2rem, 5vw, 3.5rem);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .hero-desc {
+    max-width: 34ch;
+    color: var(--text-dim);
+    font-size: 1.02rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .hero-marquee {
+    position: relative;
+    margin-top: clamp(3rem, 8vw, 5rem);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding-block: 1.1rem;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 8%,
+      #000 92%,
+      transparent
+    );
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 3rem;
+    width: max-content;
+    animation: marquee 26s linear infinite;
+  }
+
+  .marquee-track span {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: clamp(1.1rem, 2.4vw, 1.6rem);
+    color: var(--text-faint);
+    white-space: nowrap;
+  }
+
+  .marquee-track span::after {
+    content: "—";
+    margin-left: 3rem;
+    color: var(--accent);
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 1.75rem;
+    right: var(--gutter);
+    width: 26px;
+    height: 42px;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    display: none;
+  }
+
+  .hero-scroll span {
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    width: 3px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 999px;
+    transform: translateX(-50%);
+    animation: scroll-dot 1.8s ease-in-out infinite;
+  }
+
+  @keyframes scroll-dot {
+    0% { opacity: 1; transform: translate(-50%, 0); }
+    70% { opacity: 0; transform: translate(-50%, 16px); }
+    100% { opacity: 0; transform: translate(-50%, 16px); }
+  }
+
+  @media (min-width: 640px) {
+    .hero-scroll {
+      display: block;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track,
+    .hero-scroll span {
+      animation: none;
+    }
+  }
+</style>

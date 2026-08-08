@@ -1,0 +1,63 @@
+---
+import { clients } from "../data/content.js";
+const loop = [...clients, ...clients];
+---
+
+<section class="clients" aria-label="Marcas y clientes">
+  <div class="clients-track">
+    {loop.map((name) => (
+      <span>{name}</span>
+    ))}
+  </div>
+</section>
+
+<style>
+  .clients {
+    position: relative;
+    padding-block: clamp(2.5rem, 5vw, 3.5rem);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 8%,
+      #000 92%,
+      transparent
+    );
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  .clients-track {
+    display: flex;
+    align-items: center;
+    gap: clamp(2.5rem, 6vw, 4.5rem);
+    width: max-content;
+    animation: clients-scroll 30s linear infinite;
+  }
+
+  .clients-track span {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    letter-spacing: 0.02em;
+    color: var(--text-faint);
+    white-space: nowrap;
+    transition: color 0.3s var(--ease-out);
+  }
+
+  .clients-track span:hover {
+    color: var(--text);
+  }
+
+  @keyframes clients-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .clients-track {
+      animation: none;
+    }
+  }
+</style>

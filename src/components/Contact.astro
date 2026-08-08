@@ -1,0 +1,191 @@
+---
+const socials = [
+  { label: "Instagram", href: "https://instagram.com" },
+  { label: "Vimeo", href: "https://vimeo.com" },
+  { label: "YouTube", href: "https://youtube.com" },
+  { label: "LinkedIn", href: "https://linkedin.com" },
+];
+---
+
+<section class="contact section" id="contacto">
+  <div class="container contact-grid">
+    <div class="contact-intro" data-reveal>
+      <p class="eyebrow">Contacto</p>
+      <h2 class="section-title">
+        ¿Tienes un <em>proyecto</em><br />en mente?
+      </h2>
+      <a href="mailto:hola@mateoproductor.com" class="contact-email" data-cursor-hover>
+        hola@mateoproductor.com
+      </a>
+
+      <ul class="contact-socials">
+        {socials.map((s) => (
+          <li>
+            <a href={s.href} target="_blank" rel="noopener noreferrer" data-cursor-hover>
+              {s.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <form class="contact-form" id="contact-form" data-reveal novalidate>
+      <div class="field">
+        <label for="name">Nombre</label>
+        <input type="text" id="name" name="name" required autocomplete="name" />
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required autocomplete="email" />
+      </div>
+      <div class="field">
+        <label for="message">Cuéntame sobre tu proyecto</label>
+        <textarea id="message" name="message" rows="4" required></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-solid" data-cursor-hover>
+        Enviar mensaje
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M7 17 17 7M7 7h10v10" />
+        </svg>
+      </button>
+
+      <p class="form-note" id="form-note" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
+<script>
+  // Envío del formulario: conecta este handler a tu servicio real
+  // (Formspree, Resend, tu propio backend, etc.) reemplazando el bloque
+  // marcado abajo. Por ahora simula un envío exitoso en el cliente.
+  const form = document.getElementById("contact-form") as HTMLFormElement | null;
+  const note = document.getElementById("form-note");
+
+  form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    // --- Reemplazar por una llamada real a tu servicio de formularios ---
+    if (note) {
+      note.textContent = "¡Gracias! Tu mensaje fue recibido. Te responderé pronto.";
+    }
+    form.reset();
+  });
+</script>
+
+<style>
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(3rem, 6vw, 5rem);
+  }
+
+  .contact-email {
+    display: inline-block;
+    margin-top: 1.75rem;
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    color: var(--accent);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s var(--ease-out);
+  }
+
+  .contact-email:hover {
+    border-color: var(--accent);
+  }
+
+  .contact-socials {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .contact-socials a {
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    position: relative;
+    padding-bottom: 0.2rem;
+  }
+
+  .contact-socials a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 1px;
+    background: var(--accent);
+    transition: width 0.3s var(--ease-out);
+  }
+
+  .contact-socials a:hover {
+    color: var(--text);
+  }
+
+  .contact-socials a:hover::after {
+    width: 100%;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .field label {
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  .field input,
+  .field textarea {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--line-strong);
+    padding-block: 0.7rem;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--text);
+    resize: vertical;
+    transition: border-color 0.3s var(--ease-out);
+  }
+
+  .field input:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+
+  .contact-form .btn {
+    align-self: flex-start;
+    margin-top: 0.5rem;
+  }
+
+  .form-note {
+    font-size: 0.85rem;
+    color: var(--accent);
+    min-height: 1.2em;
+  }
+
+  @media (max-width: 860px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

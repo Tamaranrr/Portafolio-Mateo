@@ -1,0 +1,101 @@
+---
+const skills = ["Video", "Fotografía", "Motion", "Branding", "Color", "Sonido"];
+---
+
+<section class="herov3" id="inicio">
+  <div class="blob blob-1" aria-hidden="true"></div>
+  <div class="blob blob-2" aria-hidden="true"></div>
+
+  <div class="container herov3-inner">
+    <span class="chip" data-reveal><span class="chip-dot"></span> Disponible para nuevos proyectos</span>
+
+    <h1 class="big-title herov3-title" data-reveal>
+      HAGO RUIDO<br />
+      <span class="grad">VISUAL.</span>
+    </h1>
+
+    <p class="lede herov3-lede" data-reveal>
+      Soy Mateo — productor multimedia. Video, fotografía y motion con
+      actitud propia: colores altos, ritmo rápido, ideas que se quedan.
+    </p>
+
+    <div class="herov3-actions" data-reveal>
+      <a href="#trabajo" class="btn3 btn3-solid">Ver el trabajo</a>
+      <a href="#contacto" class="btn3 btn3-outline">Contactar</a>
+    </div>
+
+    <div class="herov3-chips" data-reveal>
+      {skills.map((s) => (
+        <span class="chip">{s}</span>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .herov3 {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 6rem;
+    overflow: hidden;
+  }
+
+  .blob-1 {
+    width: 46vw;
+    height: 46vw;
+    max-width: 560px;
+    max-height: 560px;
+    top: -12%;
+    right: -8%;
+    background: var(--gradient-1);
+    animation: blob-float 14s ease-in-out infinite;
+  }
+
+  .blob-2 {
+    width: 32vw;
+    height: 32vw;
+    max-width: 400px;
+    max-height: 400px;
+    bottom: -10%;
+    left: -6%;
+    background: var(--gradient-2);
+    animation: blob-float 18s ease-in-out infinite reverse;
+  }
+
+  @keyframes blob-float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(4%, 6%) scale(1.08); }
+  }
+
+  .herov3-title {
+    margin-top: 1.5rem;
+  }
+
+  .herov3-lede {
+    margin-top: 1.5rem;
+  }
+
+  .herov3-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2.25rem;
+  }
+
+  .herov3-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 3rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .blob-1,
+    .blob-2 {
+      animation: none;
+    }
+  }
+</style>

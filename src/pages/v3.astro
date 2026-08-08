@@ -1,0 +1,28 @@
+---
+import LayoutV3 from "../layouts/LayoutV3.astro";
+import NavV3 from "../components/v3/NavV3.astro";
+import HeroV3 from "../components/v3/HeroV3.astro";
+import AboutV3 from "../components/v3/AboutV3.astro";
+import WorkV3 from "../components/v3/WorkV3.astro";
+import ServicesV3 from "../components/v3/ServicesV3.astro";
+import TestimonialsV3 from "../components/v3/TestimonialsV3.astro";
+import ClientsV3 from "../components/v3/ClientsV3.astro";
+import ContactV3 from "../components/v3/ContactV3.astro";
+import FooterV3 from "../components/v3/FooterV3.astro";
+import VersionSwitcher from "../components/shared/VersionSwitcher.astro";
+---
+
+<LayoutV3>
+  <NavV3 />
+  <main>
+    <HeroV3 />
+    <AboutV3 />
+    <WorkV3 />
+    <ServicesV3 />
+    <TestimonialsV3 />
+    <ClientsV3 />
+    <ContactV3 />
+  </main>
+  <FooterV3 />
+  <VersionSwitcher current="v3" theme="dark" />
+</LayoutV3>

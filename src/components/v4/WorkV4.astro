@@ -1,0 +1,214 @@
+---
+import { projects } from "../../data/projects.js";
+---
+
+<section class="workv4 section" id="trabajo">
+  <div class="workv4-ticker" aria-hidden="true">
+    <div class="workv4-ticker-track">
+      {[...projects, ...projects].map((p) => (
+        <span>{p.title} <b>·</b></span>
+      ))}
+    </div>
+  </div>
+
+  <div class="container">
+    <p class="label" data-reveal>INDEX DE PROYECTOS</p>
+    <h2 class="slab" data-reveal>TRABAJO <span class="hl">CRUDO.</span></h2>
+
+    <div class="workv4-table" data-reveal>
+      {projects.map((p, i) => (
+        <div class="workv4-row" data-row>
+          <button class="workv4-row-head" data-toggle>
+            <span class="workv4-num">{String(i + 1).padStart(2, "0")}</span>
+            <span class="workv4-title">{p.title}</span>
+            <span class="workv4-cat">{p.category}</span>
+            <span class="workv4-year">{p.year}</span>
+            <span class="workv4-plus" aria-hidden="true">+</span>
+          </button>
+          <div class="workv4-panel">
+            <div class="workv4-panel-inner">
+              <img src={p.image} alt={p.title} loading="lazy" />
+              <div>
+                <p class="workv4-desc">{p.description}</p>
+                <p class="workv4-client">CLIENTE: {p.client}</p>
+                <ul class="workv4-tags">
+                  {p.tags.map((tag) => <li>{tag}</li>)}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-row]").forEach((row) => {
+    const head = row.querySelector("[data-toggle]");
+    head?.addEventListener("click", () => {
+      const isOpen = row.classList.contains("is-open");
+      document.querySelectorAll("[data-row].is-open").forEach((r) => r.classList.remove("is-open"));
+      if (!isOpen) row.classList.add("is-open");
+    });
+  });
+</script>
+
+<style>
+  .workv4-ticker {
+    border-block: var(--bw) solid var(--line);
+    background: var(--accent);
+    color: var(--paper);
+    overflow: hidden;
+    padding-block: 0.55rem;
+    margin-bottom: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .workv4-ticker-track {
+    display: flex;
+    gap: 0.75rem;
+    width: max-content;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    animation: workv4-scroll 30s linear infinite;
+  }
+
+  @keyframes workv4-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .workv4-table {
+    margin-top: 2.5rem;
+    border: var(--bw) solid var(--line);
+    border-bottom: none;
+  }
+
+  .workv4-row {
+    border-bottom: var(--bw) solid var(--line);
+  }
+
+  .workv4-row-head {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 3.5rem 1fr auto auto 2.5rem;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    text-align: left;
+    transition: background 0.12s linear, color 0.12s linear;
+  }
+
+  .workv4-row-head:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .workv4-num {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .workv4-title {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 1.05rem;
+  }
+
+  .workv4-cat,
+  .workv4-year {
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+
+  .workv4-plus {
+    justify-self: end;
+    font-size: 1.3rem;
+    font-weight: 700;
+    transition: transform 0.15s linear;
+  }
+
+  .workv4-row.is-open .workv4-plus {
+    transform: rotate(45deg);
+  }
+
+  .workv4-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.25s ease-out;
+  }
+
+  .workv4-row.is-open .workv4-panel {
+    grid-template-rows: 1fr;
+  }
+
+  .workv4-panel-inner {
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 1.5rem;
+    padding: 0 1.25rem;
+  }
+
+  .workv4-row.is-open .workv4-panel-inner {
+    padding: 1.25rem;
+    border-top: var(--bw) solid var(--line);
+  }
+
+  .workv4-panel-inner img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border: var(--bw) solid var(--line);
+    filter: grayscale(1);
+  }
+
+  .workv4-desc {
+    font-size: 0.92rem;
+  }
+
+  .workv4-client {
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .workv4-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+  }
+
+  .workv4-tags li {
+    font-size: 0.72rem;
+    border: 1px solid var(--line);
+    padding: 0.25rem 0.55rem;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 700px) {
+    .workv4-row-head {
+      grid-template-columns: 2.5rem 1fr 2rem;
+    }
+
+    .workv4-cat,
+    .workv4-year {
+      display: none;
+    }
+
+    .workv4-panel-inner {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .workv4-ticker-track {
+      animation: none;
+    }
+  }
+</style>

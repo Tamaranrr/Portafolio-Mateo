@@ -1,0 +1,121 @@
+---
+import { stats } from "../../data/content.js";
+const badgeGrads = ["var(--gradient-1)", "var(--gradient-2)", "var(--gradient-1)", "var(--gradient-2)"];
+---
+
+<section class="aboutv3 section" id="sobre-mi">
+  <div class="container aboutv3-grid">
+    <div class="aboutv3-media" data-reveal>
+      <div class="aboutv3-blob" aria-hidden="true"></div>
+      <img
+        src="https://picsum.photos/seed/mateo-vibrante/800/900"
+        alt="Retrato de Mateo, productor multimedia"
+        loading="lazy"
+      />
+    </div>
+
+    <div>
+      <span class="chip" data-reveal><span class="chip-dot"></span> Sobre mí</span>
+      <h2 class="big-title" data-reveal>NO SOLO GRABO,<br /><span class="grad">DIRIJO.</span></h2>
+
+      <p class="lede aboutv3-copy" data-reveal>
+        Ocho años produciendo video, fotografía e identidad de marca con una
+        estética alta en energía. Me obsesiona el ritmo, el color y que cada
+        proyecto se sienta vivo.
+      </p>
+
+      <div class="aboutv3-stats" data-reveal>
+        {stats.map((s, i) => (
+          <div class="aboutv3-badge" style={`--grad:${badgeGrads[i % badgeGrads.length]}`}>
+            <span class="aboutv3-value">{s.value}</span>
+            <span class="aboutv3-label">{s.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .aboutv3-grid {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: clamp(2.5rem, 6vw, 5rem);
+    align-items: center;
+  }
+
+  .aboutv3-media {
+    position: relative;
+  }
+
+  .aboutv3-blob {
+    position: absolute;
+    inset: -8%;
+    background: var(--gradient-1);
+    border-radius: 42% 58% 63% 37% / 41% 44% 56% 59%;
+    filter: blur(4px);
+    opacity: 0.35;
+    z-index: -1;
+  }
+
+  .aboutv3-media img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: 42% 58% 63% 37% / 41% 44% 56% 59%;
+    border: 2px solid var(--line-strong);
+  }
+
+  .aboutv3-copy {
+    margin-top: 1.5rem;
+  }
+
+  .aboutv3-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+
+  .aboutv3-badge {
+    position: relative;
+    padding: 1.1rem 1.2rem;
+    border-radius: 16px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+
+  .aboutv3-badge::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--grad);
+    opacity: 0.16;
+  }
+
+  .aboutv3-value {
+    position: relative;
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.9rem;
+  }
+
+  .aboutv3-label {
+    position: relative;
+    display: block;
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    margin-top: 0.2rem;
+  }
+
+  @media (max-width: 900px) {
+    .aboutv3-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .aboutv3-media {
+      max-width: 380px;
+    }
+  }
+</style>

@@ -1,0 +1,72 @@
+---
+import { clients } from "../../data/content.js";
+---
+
+<section class="clientsv4">
+  <div class="container">
+    <ul class="clientsv4-grid" data-reveal>
+      {clients.map((c) => (
+        <li>{c}</li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .clientsv4 {
+    padding-block: clamp(2rem, 4vw, 3rem);
+    border-bottom: var(--bw) solid var(--line);
+  }
+
+  .clientsv4-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: var(--bw) solid var(--line);
+  }
+
+  .clientsv4-grid li {
+    padding: 1.1rem;
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    border-right: var(--bw) solid var(--line);
+    border-bottom: var(--bw) solid var(--line);
+    transition: background 0.12s linear, color 0.12s linear;
+  }
+
+  .clientsv4-grid li:hover {
+    background: var(--accent);
+    color: var(--paper);
+  }
+
+  .clientsv4-grid li:nth-child(4n) {
+    border-right: none;
+  }
+
+  .clientsv4-grid li:nth-last-child(-n+4) {
+    border-bottom: none;
+  }
+
+  @media (max-width: 700px) {
+    .clientsv4-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .clientsv4-grid li:nth-child(4n) {
+      border-right: var(--bw) solid var(--line);
+    }
+
+    .clientsv4-grid li:nth-child(2n) {
+      border-right: none;
+    }
+
+    .clientsv4-grid li:nth-last-child(-n+4) {
+      border-bottom: var(--bw) solid var(--line);
+    }
+
+    .clientsv4-grid li:nth-last-child(-n+2) {
+      border-bottom: none;
+    }
+  }
+</style>

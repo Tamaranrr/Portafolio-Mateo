@@ -1,0 +1,39 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="footerv4">
+  <div class="container footerv4-inner">
+    <span>MATEO_</span>
+    <span>© {year} — TODOS LOS DERECHOS RESERVADOS.</span>
+    <a href="#inicio">[ EOF ] ↑</a>
+  </div>
+</footer>
+
+<style>
+  .footerv4 {
+    padding-block: 1.5rem;
+  }
+
+  .footerv4-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .footerv4-inner a {
+    border: var(--bw) solid var(--line);
+    padding: 0.4rem 0.8rem;
+    transition: background 0.12s linear, color 0.12s linear;
+  }
+
+  .footerv4-inner a:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+</style>
