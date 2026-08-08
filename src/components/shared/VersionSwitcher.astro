@@ -6,11 +6,13 @@ interface Props {
 
 const { current, theme = "dark" } = Astro.props;
 
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+
 const versions = [
-  { id: "v1", href: "/", label: "V1 · Cine" },
-  { id: "v2", href: "/v2", label: "V2 · Editorial" },
-  { id: "v3", href: "/v3", label: "V3 · Vibrante" },
-  { id: "v4", href: "/v4", label: "V4 · Brutalista" },
+  { id: "v1", href: `${base}/`, label: "V1 · Cine" },
+  { id: "v2", href: `${base}/v2`, label: "V2 · Editorial" },
+  { id: "v3", href: `${base}/v3`, label: "V3 · Vibrante" },
+  { id: "v4", href: `${base}/v4`, label: "V4 · Brutalista" },
 ];
 ---
 
