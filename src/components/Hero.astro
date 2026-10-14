@@ -1,5 +1,7 @@
 ---
-const skills = ["Video", "Fotografía", "Motion", "Dirección de arte", "Color grading", "Branding"];
+import { categories } from "../data/categories.js";
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
 <section class="hero" id="inicio">
@@ -9,7 +11,7 @@ const skills = ["Video", "Fotografía", "Motion", "Dirección de arte", "Color g
   </div>
 
   <div class="container hero-inner">
-    <p class="hero-kicker" data-reveal>Productor multimedia &mdash; Video &amp; Fotografía</p>
+    <p class="hero-kicker" data-reveal>Productor multimedia &middot; Video &amp; Fotografía</p>
 
     <h1 class="hero-title">
       <span class="line" data-reveal>Historias que</span>
@@ -34,10 +36,10 @@ const skills = ["Video", "Fotografía", "Motion", "Dirección de arte", "Color g
     </div>
   </div>
 
-  <div class="hero-marquee" aria-hidden="true">
+  <div class="hero-marquee" aria-label="Categorías de proyectos">
     <div class="marquee-track">
-      {[...skills, ...skills].map((s) => (
-        <span>{s}</span>
+      {[...categories, ...categories].map((c) => (
+        <a href={`${base}/proyectos/${c.slug}`} data-cursor-hover>{c.label}</a>
       ))}
     </div>
   </div>
@@ -96,8 +98,8 @@ const skills = ["Video", "Fotografía", "Motion", "Dirección de arte", "Color g
     text-transform: uppercase;
     font-weight: 400;
     font-size: clamp(3rem, 10vw, 7.5rem);
-    line-height: 0.94;
-    letter-spacing: 0.005em;
+    line-height: 1.04;
+    letter-spacing: var(--display-tracking);
   }
 
   .hero-title .line {
@@ -155,16 +157,21 @@ const skills = ["Video", "Fotografía", "Motion", "Dirección de arte", "Color g
     animation: marquee 26s linear infinite;
   }
 
-  .marquee-track span {
+  .marquee-track a {
     font-family: var(--font-display);
     text-transform: uppercase;
     font-size: clamp(1.1rem, 2.4vw, 1.6rem);
     color: var(--text-faint);
     white-space: nowrap;
+    transition: color 0.3s var(--ease-out);
   }
 
-  .marquee-track span::after {
-    content: "—";
+  .marquee-track a:hover {
+    color: var(--accent);
+  }
+
+  .marquee-track a::after {
+    content: "·";
     margin-left: 3rem;
     color: var(--accent);
   }

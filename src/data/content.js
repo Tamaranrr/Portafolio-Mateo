@@ -1,5 +1,5 @@
 // Contenido editable del sitio: testimonios, servicios, clientes y estadísticas.
-// Todo aquí es texto de ejemplo — reemplázalo con la información real del productor.
+// Todo aquí es texto de ejemplo; reemplázalo con la información real del productor.
 
 export const testimonials = [
   {

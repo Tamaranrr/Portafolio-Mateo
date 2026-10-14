@@ -1,94 +1,68 @@
-// Contenido de ejemplo — reemplaza title, category, description, image, client, year
-// por los proyectos reales del productor. "image" acepta cualquier URL o ruta en /public.
-export const categories = ["Todos", "Video", "Fotografía", "Motion", "Branding"];
+// Proyectos reales del productor. Se agregan uno por uno a medida que llegan las carpetas.
+// "image" acepta una URL completa o una ruta relativa dentro de src/assets/ (se optimiza en el build).
+import { categories as categoryList } from "./categories.js";
+
+export const categories = ["Todos", ...categoryList.map((c) => c.label)];
 
 export const projects = [
   {
-    id: "p1",
-    title: "Horizonte Nocturno",
-    category: "Video",
-    year: "2025",
-    client: "Estudio Lumen",
-    tags: ["Dirección", "Cortometraje", "Color grading"],
+    id: "p13",
+    title: "Diseño: Cartillas Técnicas SENA",
+    category: "Diseño",
+    client: "SENA (Servicio Nacional de Aprendizaje)",
+    tags: ["Editorial", "Maquetación", "Infografía"],
     description:
-      "Cortometraje experimental sobre la vida urbana nocturna, rodado en 35mm con un enfoque en contrastes cálido-frío.",
-    image: "https://picsum.photos/seed/horizonte-nocturno/1200/1500",
+      "Serie de seis cartillas técnicas de construcción y horticultura: de la investigación a la imprenta. Retícula, jerarquía tipográfica, infografías que explican la norma de un vistazo y un sistema visual constante que le da identidad a toda la colección.",
+    image: "proyectos/diseno/editoriales/1-vulnerabilidad-sismica-00.jpg",
   },
   {
-    id: "p2",
-    title: "Campaña Aurora",
-    category: "Fotografía",
-    year: "2025",
-    client: "Aurora Cosmetics",
-    tags: ["Editorial", "Producto", "Retoque"],
+    id: "p10",
+    title: "Producto: Textiles Artesanales",
+    category: "Producto",
+    client: "Marca de accesorios hechos a mano",
+    tags: ["Producto", "Artesanía", "E-commerce"],
     description:
-      "Serie fotográfica editorial para el lanzamiento de una línea de cosmética, con dirección de arte minimalista.",
-    image: "https://picsum.photos/seed/campana-aurora/1200/900",
+      "El collar sobre piel real y con luz lateral: así se ve el brillo de cada semilla y el color verdadero. Combinamos la prenda puesta, que da actitud y escala, con primeros planos del tejido y los remates para que se entienda el trabajo a mano y den ganas de comprarlo.",
+    image: "proyectos/producto/textiles/_IMG_8270-Editar.jpg",
   },
   {
-    id: "p3",
-    title: "Pulso Urbano",
-    category: "Motion",
-    year: "2024",
-    client: "Canal Once",
-    tags: ["Motion graphics", "Identidad", "Broadcast"],
+    id: "p11",
+    title: "Producto: Bebidas Mr. Drinks",
+    category: "Producto",
+    client: "Mr. Drinks Company Bogotá",
+    tags: ["Producto", "Bebidas", "Publicidad"],
     description:
-      "Paquete de identidad animada para un programa cultural, combinando tipografía cinética y texturas de archivo.",
-    image: "https://picsum.photos/seed/pulso-urbano/1200/1400",
+      "Contraluz para encender el color, la salpicadura congelada en el aire y el vaso escarchado con el logo bien legible. Cada toma está calculada para que la bebida se vea fría, fresca y apetecible: una foto que da sed y se comparte sola.",
+    image: "proyectos/producto/alimentos/IMG_9490.jpg",
   },
   {
-    id: "p4",
-    title: "Raíz — Documental",
-    category: "Video",
-    year: "2024",
-    client: "Independiente",
-    tags: ["Documental", "Edición", "Sonido"],
+    id: "p12",
+    title: "Producto: Mobiliario Tallado",
+    category: "Producto",
+    client: "Taller de muebles en madera",
+    tags: ["Producto", "Mobiliario", "Catálogo"],
     description:
-      "Documental sobre tradiciones agrícolas familiares, con un enfoque íntimo y observacional.",
-    image: "https://picsum.photos/seed/raiz-documental/1200/1600",
-  },
-  {
-    id: "p5",
-    title: "Sistema Nimbus",
-    category: "Branding",
-    year: "2024",
-    client: "Nimbus Tech",
-    tags: ["Identidad visual", "Guía de marca", "Diseño"],
-    description:
-      "Sistema de identidad para una startup de infraestructura en la nube: logotipo, tipografía y motion básico.",
-    image: "https://picsum.photos/seed/sistema-nimbus/1200/900",
-  },
-  {
-    id: "p6",
-    title: "Retratos de Taller",
-    category: "Fotografía",
-    year: "2023",
-    client: "Colectivo Materia",
-    tags: ["Retrato", "Luz natural", "Blanco y negro"],
-    description:
-      "Serie de retratos a artesanos locales dentro de sus talleres, priorizando la luz natural disponible.",
-    image: "https://picsum.photos/seed/retratos-taller/1200/1500",
+      "Luz amplia y envolvente sobre fondo limpio, con una sombra suave que asienta la pieza en el piso. Un ángulo de tres cuartos le da volumen real y los primeros planos del relieve y el acabado a la cal explican, sin palabras, por qué vale lo que vale.",
+    image: "proyectos/producto/mobiliario/4824.jpg",
   },
   {
     id: "p7",
-    title: "Loop Festival — Titulares",
-    category: "Motion",
-    year: "2023",
-    client: "Loop Festival",
-    tags: ["Titulares", "Animación 2D", "Sound design"],
+    title: "Quince Años: Corona y Confeti",
+    category: "Eventos",
+    client: "Fiesta de 15 años",
+    tags: ["Quinceañera", "Retrato", "Edición de momento"],
     description:
-      "Secuencia de apertura para un festival de cine independiente, con animación 2D y tipografía experimental.",
-    image: "https://picsum.photos/seed/loop-festival/1200/1400",
+      "El día en que una niña se convierte, por una noche, en la protagonista de su propia historia: la corona, el orgullo de sus papás mirándola y el confeti cayendo como si el tiempo se detuviera. Guardamos esa inocencia y esa alegría que solo se viven a los quince.",
+    image: "proyectos/eventos/quinces/IMG_0341.jpg",
   },
   {
-    id: "p8",
-    title: "Manual Cafetería Sur",
-    category: "Branding",
-    year: "2023",
-    client: "Cafetería Sur",
-    tags: ["Packaging", "Identidad", "Fotografía de producto"],
+    id: "p9",
+    title: "Boda: Primer Baile",
+    category: "Eventos",
+    client: "Celebración de boda",
+    tags: ["Boda", "Ceremonia", "Fiesta"],
     description:
-      "Rediseño integral de marca para una cadena local de cafeterías, incluyendo empaques y señalética.",
-    image: "https://picsum.photos/seed/cafeteria-sur/1200/900",
+      "Una boda no es una fiesta más: es una promesa. El nervio antes del sí, el abrazo de las dos familias, el primer baile ya como esposos. No fotografiamos el vestido ni el anillo, fotografiamos la certeza de un para siempre que van a querer volver a sentir.",
+    image: "proyectos/eventos/bodas/_MG_5470.jpg",
   },
 ];

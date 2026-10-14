@@ -1,4 +1,12 @@
 /* ============================================
+   FUENTES
+   Las @font-face de "LEMON MILK" se declaran en src/layouts/Layout.astro
+   (necesitan el BASE_URL del sitio). Los archivos van en public/fonts/:
+   LEMONMILK-Regular / -Medium / -Bold  (.woff2 recomendado; .otf sirve).
+   Mientras no estén, los títulos usan "Oswald" (Google Fonts) como respaldo.
+   ============================================ */
+
+/* ============================================
    TOKENS
    ============================================ */
 :root {
@@ -17,7 +25,10 @@
   --accent-soft: rgba(211, 163, 73, 0.14);
   --accent-2: #4a7a72;
 
-  --font-display: "Anton", "Arial Narrow", sans-serif;
+  --font-display: "LEMON MILK", "Oswald", "Arial Narrow", sans-serif;
+  /* Espaciado de los títulos grandes: Oswald va muy junto por defecto.
+     LEMON MILK ya es más abierta; puede bajarse a ~0.02em cuando esté puesta. */
+  --display-tracking: 0.06em;
   --font-body: "Work Sans", "Segoe UI", sans-serif;
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
@@ -128,9 +139,9 @@ ul {
   font-family: var(--font-display);
   font-weight: 400;
   text-transform: uppercase;
-  letter-spacing: 0.01em;
+  letter-spacing: var(--display-tracking);
   font-size: clamp(2.4rem, 5.5vw, 4.4rem);
-  line-height: 0.98;
+  line-height: 1.05;
 }
 
 .section-title em {

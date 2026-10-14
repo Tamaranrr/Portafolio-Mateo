@@ -7,9 +7,26 @@ interface Props {
 }
 
 const {
-  title = "Mateo — Productor Multimedia",
+  title = "Mateo · Productor Multimedia",
   description = "Portafolio de Mateo, productor multimedia especializado en video, fotografía, motion graphics e identidad de marca.",
 } = Astro.props;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+// Fuente de títulos: LEMON MILK autoalojada. Copia los archivos en public/fonts/
+// (LEMONMILK-Regular/-Medium/-Bold, .woff2 o .otf). Si faltan, cae en "Oswald".
+const lemonMilk = [
+  ["LEMONMILK-Regular", 400],
+  ["LEMONMILK-Medium", 500],
+  ["LEMONMILK-Bold", 700],
+]
+  .map(
+    ([file, weight]) => `@font-face{font-family:"LEMON MILK";` +
+      `src:url("${base}/fonts/${file}.woff2") format("woff2"),` +
+      `url("${base}/fonts/${file}.otf") format("opentype");` +
+      `font-weight:${weight};font-style:normal;font-display:swap;}`
+  )
+  .join("");
 ---
 
 <!doctype html>
@@ -29,9 +46,10 @@ const {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Anton&family=Work+Sans:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&family=Work+Sans:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <style is:global set:html={lemonMilk}></style>
   </head>
   <body>
     <div class="grain" aria-hidden="true"></div>
@@ -88,7 +106,7 @@ const {
       revealEls.forEach((el) => {
         // Elements already scrolled past (e.g. a fast wheel scroll or an
         // anchor jump) can skip the intersection threshold entirely and
-        // never fire — show those immediately instead of leaving them at
+        // never fire, so show those immediately instead of leaving them at
         // opacity: 0 forever.
         if (el.getBoundingClientRect().bottom < 0) {
           el.classList.add("in-view");
